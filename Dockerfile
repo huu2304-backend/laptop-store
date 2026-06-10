@@ -8,4 +8,4 @@ COPY src src
 RUN chmod +x gradlew
 RUN ./gradlew build -x test
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "build/libs/laptop-store-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["sh", "-c", "java -jar build/libs/*.jar"]
