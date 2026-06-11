@@ -1,0 +1,53 @@
+package com.laptoppstore.controller;
+
+import com.laptoppstore.entity.Product;
+import com.laptoppstore.service.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("admin")
+public class AdminProductController {
+    private final ProductService productService;
+
+    @GetMapping("/products")
+    public String showListProduct(Model model) {
+        model.addAttribute("products", productService.findAll());
+        return "admin/products/list-products";
+    }
+
+    @GetMapping("/products/add")
+    public String formAddProducts() {
+        return "admin/products/add";
+    }
+
+    @PostMapping("/products/add")
+    public String addProducts(@ModelAttribute Product product) {
+        productService.save(product);
+        return "redirect:/admin/products";
+    }
+
+    @GetMapping("/products/edit/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("product", productService.findById(id));
+        return "admin/products/edit";
+    }
+
+    @PostMapping("/products/edit/{id}")
+    public String editForm(@PathVariable("id") Long id, @ModelAttribute Product product) {
+        productService.save(product);
+        return "redirect:/admin/products";
+    }
+
+    @PostMapping("/products/delete/{id}")
+    public String delete(@PathVariable("id") Long id) {
+        productService.deleteById(id);
+        return "redirect:/admin/products";
+
+    }
+
+}
