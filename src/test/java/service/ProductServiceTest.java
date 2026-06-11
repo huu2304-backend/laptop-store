@@ -1,4 +1,4 @@
-package service;
+package com.laptoppstore.service;
 
 import com.laptoppstore.entity.Product;
 import com.laptoppstore.repository.ProductRepository;
