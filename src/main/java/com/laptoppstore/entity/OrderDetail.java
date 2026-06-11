@@ -32,7 +32,8 @@ public class OrderDetail {
     @Column(nullable = false)
     @Min(value = 1, message = "Số lượng phải lớn hơn 0")
     private int quantity;
-
+    @Column(nullable = false)
+    private String productName;
     // Lưu lại giá tại thời điểm mua
     @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal price; 
