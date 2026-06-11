@@ -30,7 +30,7 @@ public class CartItem {
     private Product product;
 
     @Column(nullable = false)
-    @Min(value = 0, message = "So luong ton kho khong duoc am")
+    @Min(value = 1, message = "So luong ton kho phai lon hon 0")
     private int quantity;
     @Column(name = "added_at", nullable = false, updatable = false)
     private LocalDateTime addedAt;
