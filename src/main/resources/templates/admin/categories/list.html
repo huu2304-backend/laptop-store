@@ -1,24 +1,47 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Categories</title>
-</head>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/fragments/layout :: layout('Danh mục', ~{::mainContent})}">
 <body>
-<h1>Categories</h1>
-<a th:href="@{/admin/categories/add}">Add</a>
-<table>
-    <tr><th>ID</th><th>Name</th><th>Actions</th></tr>
-    <tr th:each="c : ${categories}">
-        <td th:text="${c.id}"></td>
-        <td th:text="${c.name}"></td>
-        <td>
-            <a th:href="@{/admin/categories/edit/{id}(id=${c.id})}">Edit</a>
-            <form th:action="@{/admin/categories/delete/{id}(id=${c.id})}" method="post" style="display:inline">
-                <button type="submit">Delete</button>
-            </form>
-        </td>
-    </tr>
-</table>
+    <th:block th:fragment="mainContent">
+        <div class="page-header">
+            <div>
+                <h1>Danh mục sản phẩm</h1>
+                <p>Quản lý các loại sản phẩm của cửa hàng</p>
+            </div>
+            <a th:href="@{/admin/categories/add}" class="btn-primary">
+                <span>+</span> Thêm danh mục
+            </a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th width="80">ID</th>
+                        <th>Tên danh mục</th>
+                        <th width="150">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="c : ${categories}">
+                        <td th:text="${'#' + c.id}"></td>
+                        <td th:text="${c.name}"></td>
+                        <td>
+                            <div class="actions">
+                                <a th:href="@{/admin/categories/edit/{id}(id=${c.id})}" class="btn-edit">Sửa</a>
+                                <form th:action="@{/admin/categories/delete/{id}(id=${c.id})}" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa danh mục này?');">
+                                    <button type="submit" class="btn-danger">Xóa</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(categories)}">
+                        <td colspan="3" style="text-align: center; padding: 30px; color: rgba(255,255,255,0.4);">
+                            Chưa có danh mục nào. Hãy thêm mới!
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </th:block>
 </body>
 </html>

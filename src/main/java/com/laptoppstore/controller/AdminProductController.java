@@ -18,6 +18,7 @@ import java.io.IOException;
 public class AdminProductController {
     private final ProductService productService;
     private final ImageService imageService;
+    private final com.laptoppstore.service.CategoryService categoryService;
 
     @GetMapping("/products")
     public String showListProduct(Model model) {
@@ -26,7 +27,9 @@ public class AdminProductController {
     }
 
     @GetMapping("/products/add")
-    public String formAddProducts() {
+    public String formAddProducts(Model model) {
+        model.addAttribute("product", new Product());
+        model.addAttribute("categories", categoryService.findAll());
         return "admin/products/add";
     }
 
@@ -43,6 +46,7 @@ public class AdminProductController {
     @GetMapping("/products/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("product", productService.findById(id));
+        model.addAttribute("categories", categoryService.findAll());
         return "admin/products/edit";
     }
 

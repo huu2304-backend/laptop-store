@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} + ' - Laptop Store Admin'">Admin Dashboard - Laptop Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f1117;
+            color: #e2e8f0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #1a1d27;
+            border-right: 1px solid rgba(255,255,255,0.07);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            z-index: 1000;
+        }
+        .sidebar-logo {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .sidebar-logo h2 { font-size: 20px; font-weight: 800; color: #fff; }
+        .sidebar-logo span { color: #7c3aed; }
+        .sidebar-logo p { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 3px; }
+        nav { padding: 16px 12px; flex: 1; }
+        nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: rgba(255,255,255,0.55);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            transition: all 0.15s;
+        }
+        nav a:hover, nav a.active { background: rgba(124,58,237,0.15); color: #a78bfa; }
+        nav a.active { background: rgba(124,58,237,0.2); }
+        .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+        .sidebar-footer a {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; border-radius: 8px;
+            color: #f87171; text-decoration: none;
+            font-size: 14px; font-weight: 500;
+            transition: background 0.15s;
+        }
+        .sidebar-footer a:hover { background: rgba(248,113,113,0.1); }
+
+        /* Main Content */
+        .main { margin-left: 260px; flex: 1; padding: 32px; width: calc(100% - 260px); }
+        .page-header { margin-bottom: 32px; display: flex; justify-content: space-between; align-items: center; }
+        .page-header h1 { font-size: 26px; font-weight: 700; color: #fff; }
+        .page-header p { color: rgba(255,255,255,0.45); font-size: 14px; margin-top: 4px; }
+        .btn-primary {
+            background: #7c3aed; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;
+            font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover { background: #6d28d9; }
+        
+        .btn-secondary {
+            background: #475569; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;
+            font-size: 14px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn-secondary:hover { background: #334155; }
+
+        .btn-danger {
+            background: #ef4444; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;
+            font-size: 13px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+            transition: background 0.2s;
+        }
+        .btn-danger:hover { background: #dc2626; }
+
+        .btn-edit {
+            background: #3b82f6; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;
+            font-size: 13px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+            transition: background 0.2s;
+        }
+        .btn-edit:hover { background: #2563eb; }
+
+        /* Tables */
+        .table-container {
+            background: #1a1d27; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; overflow: hidden;
+            width: 100%;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        th { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.5px; }
+        td { font-size: 14px; color: #cbd5e1; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+        .actions { display: flex; gap: 8px; }
+
+        /* Forms */
+        .form-container {
+            background: #1a1d27; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 30px;
+            max-width: 800px;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 500; color: #e2e8f0; margin-bottom: 8px; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px; color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #7c3aed; }
+        
+        /* Badges */
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; }
+        .badge-pending { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .badge-shipping { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+        .badge-delivered { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .badge-canceled { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .badge-admin { background: rgba(139, 92, 246, 0.2); color: #8b5cf6; }
+        .badge-customer { background: rgba(100, 116, 139, 0.2); color: #94a3b8; }
+        .badge-active { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .badge-inactive { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <h2>💻 Laptop<span>Store</span></h2>
+            <p>Trang quản trị</p>
+        </div>
+        <nav>
+            <a href="/admin/dashboard" th:classappend="${#httpServletRequest.requestURI == '/admin/dashboard' ? 'active' : ''}">
+                <span class="nav-icon">📊</span> Dashboard
+            </a>
+            <a href="/admin/categories" th:classappend="${#httpServletRequest.requestURI.startsWith('/admin/categories') ? 'active' : ''}">
+                <span class="nav-icon">🗂️</span> Danh mục
+            </a>
+            <a href="/admin/products" th:classappend="${#httpServletRequest.requestURI.startsWith('/admin/products') ? 'active' : ''}">
+                <span class="nav-icon">💻</span> Sản phẩm
+            </a>
+            <a href="/admin/orders" th:classappend="${#httpServletRequest.requestURI.startsWith('/admin/orders') ? 'active' : ''}">
+                <span class="nav-icon">📦</span> Đơn hàng
+            </a>
+            <a href="/admin/users" th:classappend="${#httpServletRequest.requestURI.startsWith('/admin/users') ? 'active' : ''}">
+                <span class="nav-icon">👥</span> Người dùng
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a th:href="@{/logout}">
+                <span>🚪</span> Đăng xuất
+            </a>
+        </div>
+    </aside>
+
+    <main class="main">
+        <th:block th:replace="${content}" />
+    </main>
+</body>
+</html>

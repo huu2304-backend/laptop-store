@@ -1,10 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Laptop Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card {
+            background: rgba(255,255,255,0.07);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        .logo span { color: #a78bfa; }
+        .logo p { color: rgba(255,255,255,0.5); font-size: 14px; margin-top: 6px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; color: rgba(255,255,255,0.7); font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        input:focus {
+            border-color: #a78bfa;
+            background: rgba(167,139,250,0.1);
+        }
+        input::placeholder { color: rgba(255,255,255,0.3); }
+        .btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            margin-top: 8px;
+        }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn:active { transform: translateY(0); }
+        .error-msg {
+            background: rgba(239,68,68,0.15);
+            border: 1px solid rgba(239,68,68,0.4);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #fca5a5;
+            font-size: 13px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .success-msg {
+            background: rgba(34,197,94,0.15);
+            border: 1px solid rgba(34,197,94,0.4);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #86efac;
+            font-size: 13px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+    <div class="card">
+        <div class="logo">
+            <h1>💻 Laptop<span>Store</span></h1>
+            <p>Đăng nhập vào tài khoản của bạn</p>
+        </div>
 
+        <div th:if="${param.error}" class="error-msg">
+            Tên đăng nhập hoặc mật khẩu không đúng!
+        </div>
+        <div th:if="${param.logout}" class="success-msg">
+            Bạn đã đăng xuất thành công.
+        </div>
+
+        <form th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label for="username">Tên đăng nhập</label>
+                <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+            </div>
+            <button type="submit" class="btn">Đăng nhập</button>
+        </form>
+    </div>
 </body>
 </html>

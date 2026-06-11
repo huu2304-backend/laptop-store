@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/fragments/layout :: layout('Dashboard', ~{::mainContent})}">
+<body>
+    <th:block th:fragment="mainContent">
+        <div class="page-header">
+            <div>
+                <h1>Dashboard</h1>
+                <p>Chào mừng trở lại! Đây là tổng quan hệ thống.</p>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-icon">🗂️</span>
+                <div class="stat-value" th:text="${totalCategories}">0</div>
+                <div class="stat-label">Danh mục</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">💻</span>
+                <div class="stat-value" th:text="${totalProducts}">0</div>
+                <div class="stat-label">Sản phẩm</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">📦</span>
+                <div class="stat-value" th:text="${totalOrders}">0</div>
+                <div class="stat-label">Đơn hàng</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">👥</span>
+                <div class="stat-value" th:text="${totalUsers}">0</div>
+                <div class="stat-label">Người dùng</div>
+            </div>
+        </div>
+
+        <div class="section-title">Truy cập nhanh</div>
+        <div class="quick-links">
+            <a href="/admin/categories" class="quick-link">
+                <div class="quick-link-icon">🗂️</div>
+                <div class="quick-link-text">
+                    <strong>Quản lý danh mục</strong>
+                    <span>Thêm, sửa, xóa danh mục</span>
+                </div>
+            </a>
+            <a href="/admin/products" class="quick-link">
+                <div class="quick-link-icon">💻</div>
+                <div class="quick-link-text">
+                    <strong>Quản lý sản phẩm</strong>
+                    <span>Thêm, sửa, xóa sản phẩm</span>
+                </div>
+            </a>
+            <a href="/admin/orders" class="quick-link">
+                <div class="quick-link-icon">📦</div>
+                <div class="quick-link-text">
+                    <strong>Quản lý đơn hàng</strong>
+                    <span>Xem và cập nhật đơn hàng</span>
+                </div>
+            </a>
+            <a href="/admin/users" class="quick-link">
+                <div class="quick-link-icon">👥</div>
+                <div class="quick-link-text">
+                    <strong>Quản lý người dùng</strong>
+                    <span>Xem danh sách tài khoản</span>
+                </div>
+            </a>
+        </div>
+    </th:block>
+</body>
+</html>

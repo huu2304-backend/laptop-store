@@ -47,3 +47,9 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.register('genHash', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.laptoppstore.GenHash'
+    dependsOn compileJava
+}

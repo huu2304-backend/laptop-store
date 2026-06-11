@@ -1,11 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>Add Category</title></head>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/fragments/layout :: layout('Thêm danh mục', ~{::mainContent})}">
 <body>
-<h1>Add Category</h1>
-<form th:action="@{/admin/categories/add}" th:object="${category}" method="post">
-    <label>Name: <input th:field="*{name}"/></label>
-    <button type="submit">Save</button>
-</form>
+    <th:block th:fragment="mainContent">
+        <div class="page-header">
+            <div>
+                <h1>Thêm danh mục</h1>
+                <p>Nhập thông tin cho danh mục mới</p>
+            </div>
+            <a th:href="@{/admin/categories}" class="btn-secondary">
+                <span>←</span> Quay lại
+            </a>
+        </div>
+
+        <div class="form-container">
+            <form th:action="@{/admin/categories/add}" th:object="${category}" method="post">
+                <div class="form-group">
+                    <label for="name">Tên danh mục</label>
+                    <input type="text" id="name" th:field="*{name}" placeholder="Nhập tên danh mục (VD: Laptop Gaming, Laptop Văn phòng...)" required>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <button type="submit" class="btn-primary">Lưu danh mục</button>
+                    <a th:href="@{/admin/categories}" class="btn-secondary" style="margin-left: 10px;">Hủy</a>
+                </div>
+            </form>
+        </div>
+    </th:block>
 </body>
 </html>

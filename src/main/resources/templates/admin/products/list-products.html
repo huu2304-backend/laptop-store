@@ -1,53 +1,58 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Danh sách sản phẩm</title>
-</head>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/fragments/layout :: layout('Sản phẩm', ~{::mainContent})}">
 <body>
-<h1>Danh sách sản phẩm</h1>
+    <th:block th:fragment="mainContent">
+        <div class="page-header">
+            <div>
+                <h1>Quản lý sản phẩm</h1>
+                <p>Xem và chỉnh sửa danh sách sản phẩm</p>
+            </div>
+            <a th:href="@{/admin/products/add}" class="btn-primary">
+                <span>+</span> Thêm sản phẩm
+            </a>
+        </div>
 
-<a th:href="@{/admin/products/add}">+ Thêm sản phẩm</a>
-
-<table border="1">
-    <thead>
-    <tr>
-        <th>Tên</th>
-        <th>Giá</th>
-        <th>Tồn kho</th>
-        <th>Anh</th>
-        <th>Mo ta</th>
-        <th>Danh mục</th>
-        <th>Hành động</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="p, stat : ${products}">
-        <td th:text="${p.name}"></td>
-        <td th:text="${p.price}"></td>
-        <td th:text="${p.stock}"></td>
-        <td>
-            <img th:src="${p.imageUrl}"
-                 th:if="${p.imageUrl != null}"
-                 width="80" height="60"
-                 style="object-fit: cover"/>
-        </td>
-        <td th:text="${p.description}"></td>
-        <td th:text="${p.category != null ? p.category.name : 'Chưa có'}"></td>
-        <td>
-            <a th:href="@{/admin/products/edit/{id}(id=${p.id})}">Sửa</a>
-            <form th:action="@{/admin/products/delete/{id}(id=${p.id})}"
-                  method="post"
-                  style="display:inline"
-                  onsubmit="return confirm('Bạn có chắc muốn xoá?')">
-                <button type="submit">Xoá</button>
-            </form>
-        </td>
-    </tr>
-    <tr th:if="${products.isEmpty() }">
-        <td colspan="7">Chưa có sản phẩm nào</td>
-    </tr>
-    </tbody>
-</table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th width="80">ID</th>
+                        <th width="80">Ảnh</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Danh mục</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th width="150">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="p : ${products}">
+                        <td th:text="${'#' + p.id}"></td>
+                        <td>
+                            <img th:if="${p.imageUrl}" th:src="@{${p.imageUrl}}" alt="Product image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;">
+                            <div th:unless="${p.imageUrl}" style="width: 50px; height: 50px; background: rgba(255,255,255,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: rgba(255,255,255,0.4);">No img</div>
+                        </td>
+                        <td th:text="${p.name}"></td>
+                        <td th:text="${p.category.name}"></td>
+                        <td th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></td>
+                        <td th:text="${p.stock}"></td>
+                        <td>
+                            <div class="actions">
+                                <a th:href="@{/admin/products/edit/{id}(id=${p.id})}" class="btn-edit">Sửa</a>
+                                <form th:action="@{/admin/products/delete/{id}(id=${p.id})}" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
+                                    <button type="submit" class="btn-danger">Xóa</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(products)}">
+                        <td colspan="7" style="text-align: center; padding: 30px; color: rgba(255,255,255,0.4);">
+                            Chưa có sản phẩm nào. Hãy thêm mới!
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </th:block>
 </body>
 </html>
