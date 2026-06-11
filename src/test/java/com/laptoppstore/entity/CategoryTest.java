@@ -1,7 +1,6 @@
 package com.laptoppstore.entity;
 
 import com.laptoppstore.repository.CategoryRepository;
-import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

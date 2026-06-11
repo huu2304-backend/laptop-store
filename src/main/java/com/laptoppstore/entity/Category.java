@@ -1,6 +1,5 @@
 package com.laptoppstore.entity;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -17,10 +16,10 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "tên không được để trống")
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
     @NotBlank(message = "slug không được để trống")
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String slug;
     private String description;
 }
