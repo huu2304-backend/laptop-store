@@ -1,10 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Danh sách sản phẩm</title>
 </head>
 <body>
-<h1>WelcomList</h1>
+<h1>Danh sách sản phẩm</h1>
+
+<a th:href="@{/admin/products/add}">+ Thêm sản phẩm</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Tên</th>
+        <th>Giá</th>
+        <th>Tồn kho</th>
+        <th>Anh</th>
+        <th>Mo ta</th>
+        <th>Danh mục</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p, stat : ${products}">
+        <td th:text="${p.name}"></td>
+        <td th:text="${p.price}"></td>
+        <td th:text="${p.stock}"></td>
+        <td>
+            <img th:src="${p.imageUrl}"
+                 th:if="${p.imageUrl != null}"
+                 width="80" height="60"
+                 style="object-fit: cover"/>
+        </td>
+        <td th:text="${p.description}"></td>
+        <td th:text="${p.category != null ? p.category.name : 'Chưa có'}"></td>
+        <td>
+            <a th:href="@{/admin/products/edit/{id}(id=${p.id})}">Sửa</a>
+            <form th:action="@{/admin/products/delete/{id}(id=${p.id})}"
+                  method="post"
+                  style="display:inline"
+                  onsubmit="return confirm('Bạn có chắc muốn xoá?')">
+                <button type="submit">Xoá</button>
+            </form>
+        </td>
+    </tr>
+    <tr th:if="${products.isEmpty() }">
+        <td colspan="7">Chưa có sản phẩm nào</td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

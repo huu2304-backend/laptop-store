@@ -1,11 +1,15 @@
 package com.laptoppstore.controller;
 
 import com.laptoppstore.entity.Product;
+import com.laptoppstore.service.ImageService;
 import com.laptoppstore.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 
 @Controller
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("admin")
 public class AdminProductController {
     private final ProductService productService;
+    private final ImageService imageService;
 
     @GetMapping("/products")
     public String showListProduct(Model model) {
@@ -26,11 +31,15 @@ public class AdminProductController {
     }
 
     @PostMapping("/products/add")
-    public String addProducts(@ModelAttribute Product product) {
+    public String addProducts(@ModelAttribute Product product,
+                              @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
+        String imageUrl = imageService.saveImage(imageFile);
+        if (imageUrl != null) {
+            product.setImageUrl(imageUrl);
+        }
         productService.save(product);
         return "redirect:/admin/products";
     }
-
     @GetMapping("/products/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("product", productService.findById(id));

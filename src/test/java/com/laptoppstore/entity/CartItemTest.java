@@ -5,12 +5,10 @@ import com.laptoppstore.repository.CartItemRepository;
 import com.laptoppstore.repository.CategoryRepository;
 import com.laptoppstore.repository.ProductRepository;
 import com.laptoppstore.repository.UserRepository;
-import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
